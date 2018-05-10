@@ -1,0 +1,28 @@
+{% extends "posts/layout.html" %}
+{% load humanize %}
+{% block pre_post_content %}
+<div class="col-md-4">
+	<h4>{{ post_user.get_short_name }}</h4>
+    <strong>@{{ post_user.username }}</strong>
+
+</div>
+{% endblock %}
+
+{% block post_content %}
+<div class="col-md-8">
+	{% for post in post_list %}
+			<div class="media-body">
+		<strong>{{ post.user.get_short_name }}</strong>
+		<h5 class="media-heading">
+			<span class="username"><a href="{% url 'posts:for_user' username=post.user.username %}">@{{ post.user.username }}</a></span>
+			<br> 
+			{{ post.user.email }}
+			<time class="time"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at|naturaltime }}</a></time>
+			
+		</h5>
+		{{ post.message_html|safe }}
+		
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}
